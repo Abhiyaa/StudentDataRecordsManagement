@@ -1,0 +1,98 @@
+<div class="search-div">
+    <button mat-raised-button (click)="onCreate()">
+      <mat-icon>add</mat-icon>Create
+    </button>
+    <mat-form-field class="search-form-field" floatLabel="never">
+      <input matInput [(ngModel)]="searchKey" placeholder="Search or Group by" autocomplete="off" (keyup)="applyFilter()">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]='listData' matSort>
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.firstName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="lastName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.lastName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="studentId">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Student Id</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.studentId}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="phoneNumber">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.phoneNumber}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="statusName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.statusName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <button mat-icon-button (click)="onEdit(row)"><mat-icon>launch</mat-icon></button>
+              <button mat-icon-button color="warn" (click)="onDelete(row.$key)"><mat-icon>delete_outline</mat-icon></button>
+            </mat-cell>
+    </ng-container>
+        <ng-container matColumnDef="loading">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                  Loading data...
+                </mat-footer-cell>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                  No data.
+                </mat-footer-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+        <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.data.length==0)}"></mat-footer-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div><br/>
+
+<div class="add-bottom-padding">
+  <div class="button-row">
+          <button mat-raised-button color="primary" (click) ="myClickFunction()">Change Student Status</button>
+  </div>
+</div>
+
+<div class="container" *ngIf="!isCollapsed">
+    <div class="row">
+      <div class="col-md-4">
+          <div class="drag-container">
+              <div class="section-heading">Active</div>
+              <div cdkDropList #activeList="cdkDropList" [cdkDropListData]="this.activies" [cdkDropListConnectedTo]="[droppedList,delinquentList]"
+                class="item-list" (cdkDropListDropped)="drop($event)">
+                <div class="item-box" *ngFor="let itemA of this.activies" cdkDrag>{{itemA.data}}</div>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+        <div class="drag-container">
+            <div class="section-heading">Delinquent</div>
+            <div cdkDropList #delinquentList="cdkDropList" [cdkDropListData]="this.delinquents" [cdkDropListConnectedTo]="[activeList,droppedList]"
+              class="item-list" (cdkDropListDropped)="drop($event)">
+              <div class="item-box" *ngFor="let itemDe of this.delinquents" cdkDrag>{{itemDe.data}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="drag-container">
+            <div class="section-heading">Dropped</div>
+            <div cdkDropList #droppedList="cdkDropList" [cdkDropListData]="this.droppers" [cdkDropListConnectedTo]="[activeList,delinquentList]"
+              class="item-list" (cdkDropListDropped)="drop($event)">
+              <div class="item-box" *ngFor="let itemDr of this.droppers" cdkDrag>{{itemDr.data}}</div>
+            </div>
+        </div>
+    </div>
+     
+    </div>
+</div>
+
+

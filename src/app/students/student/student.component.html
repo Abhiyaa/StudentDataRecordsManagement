@@ -1,0 +1,50 @@
+<mat-toolbar>
+    <span>{{service.form.controls['$key'].value?"Modify Student":"New Student"}}</span>
+    <span class="fill-remaining-space"></span>
+    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="service.form" class="normal-form" (submit)="onSubmit()">
+    <mat-grid-list cols="2" rowHeight="300px">
+        <mat-grid-tile>
+            <div class="controles-container">
+                <input type="hidden" formControlName="$key">
+                <mat-form-field>
+                    <input formControlName="firstName" matInput placeholder="First Name*">
+                    <mat-error>This field is mandatory!!</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="lastName" matInput placeholder="Last Name">
+                </mat-form-field>
+                <mat-form-field>
+                    <input formControlName="studentId" matInput placeholder="Student Id*" type="number">
+                    <mat-error>This field is mandatory!!</mat-error>
+                </mat-form-field>               
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div class="controles-container">
+                <mat-form-field>
+                     <span matPrefix>+1 &nbsp;</span>
+                     <input formControlName="phoneNumber" matInput placeholder="Phone Number*" type="tel">
+                     <mat-error *ngIf="service.form.controls['phoneNumber'].errors?.maxlength">This field can not have more than 10 numbers!!</mat-error>
+                     <mat-error *ngIf="service.form.controls['phoneNumber'].errors?.minlength">This field should have minimum 10 numbers!!</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select formControlName="status" placeholder="Status*">
+                        <mat-option>None</mat-option>
+                            <ng-container *ngFor="let status of statusService.array">
+                                <mat-option value="{{status.$key}}">{{status.name}}</mat-option>
+                            </ng-container>
+                        </mat-select>
+                        <mat-error>This field is mandatory!!</mat-error>
+                </mat-form-field>
+                <div class="add-bottom-padding">
+                        <div class="button-row">
+                                <button mat-raised-button color="primary" type="submit" [disabled]="service.form.invalid">Submit</button>
+                                <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
+                        </div>
+                </div>
+             </div>
+    </mat-grid-tile>
+    </mat-grid-list>
+</form>

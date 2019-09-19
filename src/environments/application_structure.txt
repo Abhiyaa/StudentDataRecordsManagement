@@ -1,0 +1,10 @@
++----app
+|    +---students
+|    |   |--students.component.ts|.html|.css
+|    |   +---student
+|    |   |   |--student.component.ts|.html|.css
+|    |   |
+|    |   +--shared
+|    |      |--student.service.ts(form group)
+|    |   
+|    |--app.module.ts
