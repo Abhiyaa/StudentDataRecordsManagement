@@ -25,3 +25,24 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+
+
+## PreRequisite
+1. Check for node, npm and angular/angular-cli. Run below comands to check:
+node --version
+npm --version
+npm install -g @angular/cli@latest (if angular/angular-cli is not installed)
+
+
+2. For Angular material and cdk support install both with below command
+npm i --s @angular/material @angular/cdk @angular/animations
+
+3. For db, run below command
+npm i --s firebase angularfire2
+
+
+After above commands give run command : npm start 
+and hit url:http://localhost:4200/
+
